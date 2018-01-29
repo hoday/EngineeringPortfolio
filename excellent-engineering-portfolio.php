@@ -19,7 +19,7 @@ class ExcellentEngineeringPortfolio {
 	
 	private $cpts 			= null;
 	private $settings 	= null;
-	private $styles 		= array();
+	public $styles 		= array(); // accessed by View.class.php
 	
 	/**
 	 * Initialize the plugin and register hooks
@@ -36,7 +36,7 @@ class ExcellentEngineeringPortfolio {
 		define( 'EEP_VERSION', 			3 );
 		
 		define( 'EEP_PROJECT_POST_TYPE', 				'project' );
-		define( 'EEP_PORTFOLIO_ITEM_POST_TYPE', 'portfolio-item' );
+		define( 'EEP_PORTFOLIO_ITEM_POST_TYPE', 'portfolio_item' );
 		define( 'EEP_PUBLICATION_POST_TYPE', 		'publication' );
 		define( 'EEP_SKILL_POST_TYPE', 					'skill' );
 
@@ -114,13 +114,13 @@ class ExcellentEngineeringPortfolio {
 					)
 				)
 			),
-			'classic' => new EepStyle(
+			'default' => new EepStyle(
 				array(
-					'id'	=> 'classic',
-					'label'	=> __( 'Classic style', 'textdomain' ),
+					'id'	=> 'default',
+					'label'	=> __( 'Default style', 'textdomain' ),
 					'css'	=> array(
 						'base' => EEP_PLUGIN_URL . '/assets/css/base.css',
-						'classic' => EEP_PLUGIN_URL . '/assets/css/classic.css'
+						'default' => EEP_PLUGIN_URL . '/assets/css/default.css'
 					)
 				)
 			),
@@ -259,8 +259,41 @@ function get_publication_href($post_id) {
 
 /*
 
+TODO:
+
+
+make more widgets
+make more shortcodes
+make the base.css and classic.css styles display correctly
+make help  link and setting link work on the plugin page
+fix script localization
+see why nonce is needed inside js
+move the tmeplate function  get_publication_href
+make css style actually selectable
+make settings screen
+checkwhy translation file not made
+
+fix uploaded file not being saved
+add nonce check to ajax handler
+uncomment these from the constructor:
+		// Order the menu items by menu order in the admin interface
+		add_filter( 'pre_get_posts', array( $this, 'admin_order_posts' ) );
+
+		// Append menu and menu item content to a post's $content variable
+		add_filter( 'the_content', array( $this, 'append_to_content' ) );
+
+
+
+
 make the links/downloads for the projects work
 fix the resume
 Make the patent display on the appropriate project single page
 Make the skills display on portfolio items
+
+FINISHED TODO:
+use nonces in thea dmin panel
+fix missing href problem
+fix screen_icon deprecated problem
+separate admin css and front css
+
 */

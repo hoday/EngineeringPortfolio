@@ -11,12 +11,10 @@ require_once( EEP_PLUGIN_DIR . '/views/View.class.php' );
 require_once( EEP_PLUGIN_DIR . '/views/View.Portfolio.class.php' );
 
 
-class EepBase {
-
-	public $id = null;
+abstract class EepBase {
 
 	// Collect errors during processing
-	public $errors = array();
+	protected $errors = array();
 
 
 	/**
@@ -34,24 +32,16 @@ class EepBase {
 	 * Parse the arguments passed in the construction and assign them to
 	 * internal variables.
 	 */
-	public function parse_args( $args ) {
+	final protected function parse_args( $args ) {
 		foreach ( $args as $key => $val ) {
-			switch ( $key ) {
-
-				case 'id' :
-					$this->{$key} = esc_attr( $val );
-
-				default :
-					$this->{$key} = $val;
-
-			}
+			$this->{$key} = $val;
 		}
 	}
 
 	/**
 	 * Set an error
 	 */
-	public function set_error( $error ) {
+	final protected function set_error( $error ) {
 		$this->errors[] = array_merge(
 			$error,
 			array(

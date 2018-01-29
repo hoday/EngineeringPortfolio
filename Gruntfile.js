@@ -78,12 +78,12 @@ module.exports = function(grunt) {
 					{
 						src: [
 							'*', '**/*',
-							'!food-and-drink-menu-<%= pkg.version %>.zip',
+							'!excellent-engineering-portfolio-<%= pkg.version %>.zip',
 							'!.*', '!Gruntfile.js', '!package.json', '!node_modules', '!node_modules/**/*',
 							'!assets/css/less', '!assets/css/less/**/*',
 							'!assets/js/src', '!assets/js/src/**/*',
 						],
-						dest: '/food-and-drink-menu',
+						dest: '/excellent-engineering-portfolio',
 					}
 				]
 			}

@@ -21,13 +21,13 @@ class EepCustomPostTypes {
 		
 		// Call when plugin is initialized on every page load load_cpts
 		add_action( 'init', 			array( $this, 'load_cpts') );
-		add_action( 'admin_menu', array( $this, 'load_cpt_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'register_custom_menu_page') );
+		add_action( 'admin_menu', array( $this, 'load_cpt_admin_menu' ) );
 
 		// Handle metaboxes
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-/*		add_action( 'save_post', array( $this, 'save_meta' ) );
-
+		add_action( 'save_post', 			array( $this, 'save_meta' ) );
+/*
 		// Add columns and filters to the admin list of menu items
 		add_filter( 'manage_fdm-menu-item_posts_columns', array( $this, 'menu_item_posts_columns' ) );
 		add_filter( 'manage_edit-fdm-menu-item_sortable_columns', array( $this, 'menu_item_posts_sortable_columns' ) );
@@ -49,41 +49,44 @@ class EepCustomPostTypes {
 		add_filter( 'template_include', array( $this, 'load_menu_template' ), 99 );
 		*/
 		
-	add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_project'), 10, 2);
+		/*
+		add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_project'), 10, 2);
 
-	add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_publication'), 10, 2);
-	
-	add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_portfolio_item'), 10, 2);
-	
-	add_action('post_updated', array( $this, 'update_post_callback_featured'), 10, 3);
-	
-	
-	/*
-		The function below is the ajax handler. The first and second argument strings strings must match!!
-	*/
-	add_action('wp_ajax_nopriv_publication_add_new_action', array( $this, 'publication_add_new_action'));
-	add_action('wp_ajax_publication_add_new_action', 				array( $this, 'publication_add_new_action'));
+		add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_publication'), 10, 2);
+		
+		add_action('post_updated', array( $this, 'update_post_callback_custom_post_type_portfolio_item'), 10, 2);
+		
+		add_action('post_updated', array( $this, 'update_post_callback_featured'), 10, 3);
+		*/
+		
+		
+		//	The function below is the ajax handler. The first and second argument strings strings must match!!
+		
+		add_action('wp_ajax_nopriv_publication_add_new_action', array( $this, 'publication_add_new_action'));
+		add_action('wp_ajax_publication_add_new_action', 				array( $this, 'publication_add_new_action'));
 
-	add_action('wp_ajax_nopriv_publication_add_existing_action', array( $this, 'publication_add_existing_action'));
-	add_action('wp_ajax_publication_add_existing_action', 			 array( $this, 'publication_add_existing_action'));
+		add_action('wp_ajax_nopriv_publication_add_existing_action', array( $this, 'publication_add_existing_action'));
+		add_action('wp_ajax_publication_add_existing_action', 			 array( $this, 'publication_add_existing_action'));
 
-	add_action('wp_ajax_nopriv_publication_remove_action', array( $this, 'publication_remove_action'));
-	add_action('wp_ajax_publication_remove_action', 			 array( $this, 'publication_remove_action'));
+		add_action('wp_ajax_nopriv_publication_remove_action', array( $this, 'publication_remove_action'));
+		add_action('wp_ajax_publication_remove_action', 			 array( $this, 'publication_remove_action'));
 
-	// Add featured post column in admin panel for project custom post type
-	add_filter('manage_project_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
-	add_action('manage_project_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
-	// Add featured post column in admin panel for publication custom post type
-	add_filter('manage_publication_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
-	add_action('manage_publication_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
-	// Add featured post column in admin panel for portfolio_item custom post type
-	add_filter('manage_portfolio_item_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
-	add_action('manage_portfolio_item_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
+		// Add featured post column in admin panel for project custom post type
+		add_filter('manage_project_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
+		add_action('manage_project_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
+		
+		// Add featured post column in admin panel for publication custom post type
+		add_filter('manage_publication_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
+		add_action('manage_publication_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
+		
+		// Add featured post column in admin panel for portfolio_item custom post type
+		add_filter('manage_portfolio_item_posts_columns', array( $this, 'manage_posts_columns_callback_featured'));
+		add_action('manage_portfolio_item_posts_custom_column', array( $this, 'manage_posts_custom_columns_callback_featured'), 10, 2);
 
-	add_action('post_edit_form_tag', array( $this, 'post_edit_form_tag_callback_multipart_encoding'));
+		add_action('post_edit_form_tag', array( $this, 'post_edit_form_tag_callback_multipart_encoding'));
 
 
-	add_action('update_post',array( $this, 'update_post_callback_publication_upload_file'), 10, 2);
+		add_action('update_post',array( $this, 'update_post_callback_publication_upload_file'), 10, 2);
 		
 		
 	}
@@ -427,7 +430,7 @@ class EepCustomPostTypes {
 				'id'		=>	'project_meta_box_project_details',
 				'title'		=> esc_html__( 'Project details', 'textdomain' ),
 				'callback'	=> array( $this, 'add_meta_box_callback_render_project_details' ),
-				'post_type'	=> 'project',
+				'screen'	=> 'project',
 				'context'	=> 'normal',
 				'priority'	=> 'low'
 			),
@@ -435,9 +438,9 @@ class EepCustomPostTypes {
 			// Add a metabox
 			'project_meta_box_related_publications' => array (
 				'id'		=>	'project_meta_box_related_publications',
-				'title'		=> esc_html__( 'Related Publications', 'food-and-drink-menu' ),
+				'title'		=> esc_html__( 'Related Publications', 'textdomain' ),
 				'callback'	=> array( $this, 'add_meta_box_callback_render_related_publications' ),
-				'post_type'	=> 'project',
+				'screen'	=> 'project',
 				'context'	=> 'normal',
 				'priority'	=> 'low'
 			),
@@ -445,9 +448,9 @@ class EepCustomPostTypes {
 			// Add a metabox
 			'publication_meta' => array (
 				'id'		=>	'publication_meta',
-				'title'		=> esc_html__( 'Publication details', 'food-and-drink-menu' ),
+				'title'		=> esc_html__( 'Publication details', 'textdomain' ),
 				'callback'	=> array( $this, 'add_meta_box_callback_render_publication' ),
-				'post_type'	=> 'publication',
+				'screen'	=> 'publication',
 				'context'	=> 'normal',
 				'priority'	=> 'low'
 			),
@@ -455,39 +458,19 @@ class EepCustomPostTypes {
 			// Add a metabox
 			'portfolio_item_meta' => array (
 				'id'		=>	'portfolio_item_meta',
-				'title'		=> esc_html__( 'Portfolio Item details', 'food-and-drink-menu' ),
+				'title'		=> esc_html__( 'Portfolio Item details', 'textdomain' ),
 				'callback'	=> array( $this, 'add_meta_box_callback_render_portfolio_item' ),
-				'post_type'	=> 'portfolio_item',
+				'screen'	=> 'portfolio_item',
 				'context'	=> 'normal',
 				'priority'	=> 'low'
 			),
 			
-			// Add a metabox
+			// Add a metabox to multiple pages at once
 			'featured_meta' => array (
 				'id'		=>	'featured_meta',
-				'title'		=> esc_html__( 'Feature on front page', 'food-and-drink-menu' ),
+				'title'		=> esc_html__( 'Feature on front page', 'textdomain' ),
 				'callback'	=> array( $this, 'add_meta_box_callback_render_featured' ),
-				'post_type'	=> 'project',
-				'context'	=> 'side',
-				'priority'	=> 'low'
-			),
-						
-			// Add a metabox
-			'featured_meta' => array (
-				'id'		=>	'featured_meta',
-				'title'		=> esc_html__( 'Feature on front page', 'food-and-drink-menu' ),
-				'callback'	=> array( $this, 'add_meta_box_callback_render_featured' ),
-				'post_type'	=> 'publication',
-				'context'	=> 'side',
-				'priority'	=> 'low'
-			),
-			
-			// Add a metabox
-			'featured_meta' => array (
-				'id'		=>	'featured_meta',
-				'title'		=> esc_html__( 'Feature on front page', 'food-and-drink-menu' ),
-				'callback'	=> array( $this, 'add_meta_box_callback_render_featured' ),
-				'post_type'	=> 'portfolio_item',
+				'screen'	=> array('project', 'publication', 'portfolio_item'),
 				'context'	=> 'side',
 				'priority'	=> 'low'
 			),
@@ -502,11 +485,77 @@ class EepCustomPostTypes {
 				$meta_box['id'],
 				$meta_box['title'],
 				$meta_box['callback'],
-				$meta_box['post_type'],
+				$meta_box['screen'],
 				$meta_box['context'],
 				$meta_box['priority']
 			);
 		}
+		
+	}
+	
+	/**
+	 * Save the metabox data
+	 * @since 1.0
+	 */
+	public function save_meta( $post_id ) {
+		
+		// Check autosave
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return $post_id;
+		}
+		
+		// Array of values to fetch and store
+		$meta_ids = array();
+
+		$post_type = get_post_type($post_id);
+
+		// Define Menu Item data
+		if ( EEP_PROJECT_POST_TYPE == $post_type ) {
+			
+			$meta_ids['project_title'] 			= 'sanitize_text_field';
+			$meta_ids['project_subtitle'] 	= 'sanitize_text_field';
+			$meta_ids['project_credits'] 		= 'sanitize_text_field';
+			$meta_ids['featured'] = '';
+			
+		}	elseif ( EEP_PORTFOLIO_ITEM_POST_TYPE == $post_type ) {
+			
+			$meta_ids['portfolio_item_details'] = 'sanitize_text_field';
+			$meta_ids['portfolio_item_link'] = 'sanitize_text_field';
+			$meta_ids['featured'] = '';
+			
+		} elseif ( EEP_PUBLICATION_POST_TYPE == $post_type ) {
+			
+			$meta_ids['publication_authors'] = 'sanitize_text_field';
+			$meta_ids['publication_details'] = 'sanitize_text_field';
+			$meta_ids['publication_link'] = 'sanitize_text_field';
+			$meta_ids['featured'] = '';
+
+			$this->store_publication_file($post_id);
+		}
+
+		
+		
+
+		// Create filter so addons can add new data
+		$meta_ids = apply_filters( 'eep_save_meta', $meta_ids );		
+			
+		// Save the metadata
+		foreach ($meta_ids as $meta_id => $sanitize_callback) {
+
+			$cur = get_post_meta( $post_id, $meta_id, true );
+			
+			if ($meta_id == 'featured') {
+				$new = ( isset( $_POST[$meta_id] ) && $_POST[$meta_id] == 'on' ) ? 1 : 0;
+			} else {
+				$new = isset( $_POST[$meta_id] ) ? call_user_func( $sanitize_callback, $_POST[$meta_id] ) : '';
+			}
+		
+			if ( $new != $cur ) {
+				update_post_meta( $post_id, $meta_id, $new );
+			}
+			
+		}		
+		
 	}
 
 
@@ -525,11 +574,6 @@ class EepCustomPostTypes {
 			$project_credits    				= '';	
 		}	
 		?>
-		<style>
-		.full-width {
-			width:100%;
-		}
-		</style>	
 		<p>
 			<label>Title:</label><br />
 			<input name="project_title" value="<?php echo $project_title; ?>" class="full-width">
@@ -556,7 +600,7 @@ class EepCustomPostTypes {
 			$publication_link    = get_post_meta($post->ID, "publication_link",    true);
 			$args = array(
 							'post_type'      => 'attachment',
-							'post_mime_type' => 'application/pdf',
+							'post_mime_type' => array('application/pdf', 'text/plain', 'application/vnd.msword'),
 							'post_parent'    => $post->ID,
 					);
 			$attachments  		 = get_posts($args);
@@ -578,11 +622,6 @@ class EepCustomPostTypes {
 		}
 
 		?>
-		<style>
-		.full-width {
-			width:100%;
-		}
-		</style>
 		<p>
 			<label>Authors:</label><br />
 			<input name="publication_authors" value="<?php echo $publication_authors; ?>" class="full-width">
@@ -618,11 +657,6 @@ class EepCustomPostTypes {
 			$portfolio_item_link    = '';
 		}
 		?>
-		<style>
-		.full-width {
-			width:100%;
-		}
-		</style>
 		<p>
 			<label>Details:</label><br />
 			<input name="portfolio_item_details" value="<?php echo $portfolio_item_details; ?>" class="full-width">
@@ -635,6 +669,7 @@ class EepCustomPostTypes {
 	}
 
 	public function add_meta_box_callback_render_featured($post, $args) {
+
 		$DEFAULT = 1;
 		if ($post != null) {
 			$featured = get_post_meta($post->ID, "featured", true);
@@ -648,6 +683,7 @@ class EepCustomPostTypes {
 			<input id="checkBox" name="featured" type="checkbox" <?php if ($featured) { echo "checked"; }?>>
 		</p>
 		<?php	
+		
 	}
 
 
@@ -659,32 +695,6 @@ class EepCustomPostTypes {
 		$this->publication_meta_render_metabox_callback_populate($publication_id)	;
 	}
 
-	/*
-	Not used
-	*/
-	/*
-	function project_meta_add_existing_publication_render_metabox($post, $args) {
-			wp_nonce_field( plugin_basename( __FILE__ ), 'p2p2_project_publication_nonce' );
-			$publication_id = get_post_meta($post->ID, 'p2p2_project_publication', true);
-
-			echo "<p>Select the existing publication to add</p>";
-			echo "<select id='p2p2_project_publication' name='p2p2_project_publication'>";
-			// Query the publications here
-			$query = new WP_Query( 'post_type=publication' );
-			while ( $query->have_posts() ) {
-					$query->the_post();
-					$id = get_the_ID();
-					$selected = "";
-
-					if($id == $publication_id){
-							$selected = ' selected="selected"';
-					}
-					echo '<option' . $selected . ' value=' . $id . '>' . get_the_title() . '</option>';
-			}
-			echo "</select>";
-		
-	}
-	*/
 
 	public function get_related_publication_list_item($project_publication_id) {
 		ob_start();
@@ -727,7 +737,7 @@ class EepCustomPostTypes {
 								<a id="publication-add-selector-new"      href="#/" class="hide-if-no-js nav-tab">Add new publication</a>
 						</div>
 						
-						<div style="background-color:#f5f5f5; padding: 15px; border-bottom: 1px solid #ddd; height: 24rem;">
+						<div class="existing_publication_wrapper">
 
 							<div id="existing_publication" class="existing_publication">
 								<label class="screen-reader-text" for="newcategory_parent">Existing Publication:</label>
@@ -773,6 +783,7 @@ class EepCustomPostTypes {
 	/*
 		Saves the values entered in the custom metaboxes for the project custom post type
 	*/ 
+	/*
 	public function update_post_callback_custom_post_type_project($post_id, $post){
 	 
 		if ("project" == get_post_type($post_id)) {
@@ -786,6 +797,7 @@ class EepCustomPostTypes {
 			update_post_meta($post_id, "project_credits", 						sanitize_text_field($_POST["project_credits"]));
 		}
 	}
+	*/
 	
 
 	/*
@@ -798,7 +810,7 @@ class EepCustomPostTypes {
 				// making new posts from the new publications page and adding a new publication in the projects page.
 				
 				update_publication_post_meta($post_id, $_POST);
-				store_publication_file($post_id, $_FILES);
+				store_publication_file($post_id);
 
 
 				//update_post_meta($post_id, "publication_authors", 	sanitize_text_field($_POST["publication_authors"]));
@@ -814,15 +826,17 @@ class EepCustomPostTypes {
 	/*
 		Saves the values entered in the custom metaboxes for the portfolio_item custom post type
 	*/
+	/*
 	public function update_post_callback_custom_post_type_portfolio_item($post_id, $post){
 		if ("portfolio_item" == get_post_type($post_id)) {
 			if (isset($_POST["portfolio_item_details"])) { update_post_meta($post_id, "portfolio_item_details", 	sanitize_text_field($_POST["portfolio_item_details"])); }
 			if (isset($_POST["portfolio_item_link"]))    { update_post_meta($post_id, "portfolio_item_link", 		  sanitize_text_field($_POST["portfolio_item_link"])); }
 		}
 	}
+	*/
 	
 
-
+/*
 	public function update_post_callback_featured($post_id, $post, $update){
 		if ("project" == get_post_type($post_id) || "portfolio_item" == get_post_type($post_id) || "publication" == get_post_type($post_id)) {
 			if (array_key_exists("featured", $_POST) && ($_POST["featured"] == "on")) {
@@ -833,6 +847,7 @@ class EepCustomPostTypes {
 			update_post_meta($post_id, "featured", 	$is_featured);
 		}
 	}
+	*/
 	
 
 	public function associate_publication_with_project($post_id_project, $post_id_publication) {
@@ -864,93 +879,61 @@ class EepCustomPostTypes {
 		return $success;
 	}
 
-
+/*
 	public function update_publication_post_meta($post_id, $new_publication) {
 		update_post_meta($post_id, "publication_authors", 	sanitize_text_field($new_publication["publication_authors"]));
 		update_post_meta($post_id, "publication_details", 	sanitize_text_field($new_publication["publication_details"]));
 		update_post_meta($post_id, "publication_link", 		sanitize_text_field($new_publication["publication_link"]));
 		//update_post_meta($post_id, "publication_file", 		sanitize_text_field($new_publication["publication_file"]));
 	}
+	*/
 
-	public function store_publication_file($post_id, $dummy) {
+	public function store_publication_file($post_id) {
+		
 		// If the upload field has a file in it
 		if(isset($_FILES['publication_file']) && ($_FILES['publication_file']['size'] > 0)) {
 
-				// Get the type of the uploaded file. This is returned as "type/extension"
-				$arr_file_type = wp_check_filetype(basename($_FILES['publication_file']['name']));
-				$uploaded_file_type = $arr_file_type['type'];
+			// Get the type of the uploaded file. This is returned as "type/extension"
+			$arr_file_type = wp_check_filetype(basename($_FILES['publication_file']['name']));
+			$uploaded_file_type = $arr_file_type['type'];
 
-				// Set an array containing a list of acceptable formats
-				$allowed_file_types = array('application/pdf');
+			// Set an array containing a list of acceptable formats
+			$allowed_file_types = array('application/pdf', 'text/plain', 'application/vnd.msword');
 
-				// If the uploaded file is the right format
-				if(in_array($uploaded_file_type, $allowed_file_types)) {
+			// If the uploaded file is the right format
+			if(in_array($uploaded_file_type, $allowed_file_types)) {
 
-						// Options array for the wp_handle_upload function. 'test_upload' => false
-						$upload_overrides = array( 'test_form' => false ); 
+				// Options array for the wp_handle_upload function. 'test_upload' => false
+				$upload_overrides = array( 'test_form' => false ); 
 
-						// Handle the upload using WP's wp_handle_upload function. Takes the posted file and an options array
-						$uploaded_file = wp_handle_upload($_FILES['publication_file'], $upload_overrides);
+				// Handle the upload using WP's wp_handle_upload function. Takes the posted file and an options array
+				$uploaded_file = wp_handle_upload( $_FILES['publication_file'], $upload_overrides );
 
-						// If the wp_handle_upload call returned a local path for the image
-						if(isset($uploaded_file['file'])) {
+				// If the wp_handle_upload call returned a local path for the image
+				if(isset($uploaded_file['file'])) {
 
-								// The wp_insert_attachment function needs the literal system path, which was passed back from wp_handle_upload
-								$file_name_and_location = $uploaded_file['file'];
+					// The wp_insert_attachment function needs the literal system path, which was passed back from wp_handle_upload
+					$file_name_and_location = $uploaded_file['file'];
 
-								// Generate a title for the image that'll be used in the media library
-								$file_title_for_media_library = $_FILES['publication_file']['name'];
+					// Generate a title for the image that'll be used in the media library
+					$file_title_for_media_library = $_FILES['publication_file']['name'];
 
-								// Set up options array to add this file as an attachment
-								$attachment = array(
-										'post_mime_type' => $uploaded_file_type,
-										'post_title' => $file_title_for_media_library,
-										'post_content' => '',
-										'post_status' => 'inherit'
-								);
+					// Set up options array to add this file as an attachment
+					$attachment = array(
+							'post_mime_type' => $uploaded_file_type,
+							'post_title' => $file_title_for_media_library,
+							'post_content' => '',
+							'post_status' => 'inherit'
+					);
 
-								// Run the wp_insert_attachment function. This adds the file to the media library and generates the thumbnails. If you wanted to attch this image to a post, you could pass the post id as a third param and it'd magically happen.
-								$attach_id = wp_insert_attachment( $attachment, $file_name_and_location, $post_id);
-								//require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-								//$attach_data = wp_generate_attachment_metadata( $attach_id, $file_name_and_location );
-								
-								//wp_update_attachment_metadata($attach_id,  $attach_data);
-
-								// Before we update the post meta, trash any previously uploaded image for this post.
-								// You might not want this behavior, depending on how you're using the uploaded images.
-								//$existing_uploaded_image = (int) get_post_meta($post_id,'_xxxx_attached_image', true);
-								//if(is_numeric($existing_uploaded_image)) {
-								//		wp_delete_attachment($existing_uploaded_image);
-								//}
-
-								// Now, update the post meta to associate the new image with the post
-								//update_post_meta($post_id, 'publication_file_id', $attach_id);
-
-								// Set the feedback flag to false, since the upload was successful
-								//$upload_feedback = false;
-
-
-						} else { // wp_handle_upload returned some kind of error. the return does contain error details, so you can use it here if you want.
-
-								//$upload_feedback = 'There was a problem with your upload.';
-
-						}
-
-				} else { // wrong file type
-
-						//$upload_feedback = 'Please upload only image files (jpg, gif or png).';
+					// Run the wp_insert_attachment function. This adds the file to the media library and generates the thumbnails. If you wanted to attch this image to a post, you could pass the post id as a third param and it'd magically happen.
+					$attach_id = wp_insert_attachment( $attachment, $file_name_and_location, $post_id);
 
 				}
 
-		} else { // No file was passed
+			}
 
-				//$upload_feedback = false;
-
-		}
-
-		// Update the post meta with any feedback
-		//update_post_meta($post_id,'_xxxx_attached_image_upload_feedback',$upload_feedback);
-		
+		}		
 		
 	}
 
