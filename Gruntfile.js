@@ -32,8 +32,7 @@ module.exports = function(grunt) {
 			build: {
 				files: {
 					'assets/js/admin.js': [
-						'assets/js/src/menu-item-prices.js',
-						'assets/js/src/menu-organizer.js',
+						'assets/js/src/admin.js',
 					],
 				}
 			}
@@ -42,11 +41,11 @@ module.exports = function(grunt) {
 		// Watch for changes on some files and auto-compile them
 		watch: {
 			less: {
-				files: 'assets/css/less/**/*.less',
+				files: 'assets/css/less/*.less',
 				tasks: ['less'],
 			},
 			js: {
-				files: 'assets/js/src/**/*.js',
+				files: 'assets/js/src/*.js',
 				tasks: ['jshint', 'concat'],
 			}
 		},
@@ -61,7 +60,7 @@ module.exports = function(grunt) {
 	                    'x-poedit-keywordslist': true
 	                },
 					processPot: function( pot, options ) {
-						pot.headers['report-msgid-bugs-to'] = 'https://themeofthecrop.com';
+						pot.headers['report-msgid-bugs-to'] = 'https://';
 						return pot;
 					},
 					type: 'wp-plugin',
@@ -73,7 +72,7 @@ module.exports = function(grunt) {
 		compress: {
 			main: {
 				options: {
-					archive: 'food-and-drink-menu-<%= pkg.version %>.zip'
+					archive: 'excellent-engineering-portfolio-<%= pkg.version %>.zip'
 				},
 				files: [
 					{

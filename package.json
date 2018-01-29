@@ -1,0 +1,35 @@
+{
+  "name": "excellent-engineering-portfolio",
+  "version": "1.0.0",
+  "description": "Wordpress plugin that creates portfolio for engineers",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hoday/EngineeringPortfolio.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "portfolio",
+    "engineer",
+    "resume"
+  ],
+  "author": "Hoday Stearns",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hoday/EngineeringPortfolio/issues"
+  },
+  "homepage": "https://github.com/hoday/EngineeringPortfolio#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-compress": "^1.4.3",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-wp-i18n": "^1.0.1"
+  }
+}
