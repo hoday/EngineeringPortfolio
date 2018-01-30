@@ -107,29 +107,37 @@ class ExcellentEngineeringPortfolio {
 		$this->styles = array(
 			'base' => new EepStyle(
 				array(
-					'id'	=> 'base',
-					'label'	=> __( 'Base style only', 'textdomain' ),
-					'css'	=> array(
-						'base' => EEP_PLUGIN_URL . '/assets/css/base.css'
-					)
+					'id'			=> 'base',
+					'label'		=> __( 'Base style only', 'textdomain' ),
+					'css'			=> array(
+						'base' 			=> EEP_PLUGIN_URL . '/assets/css/base.css'
+						),
+					'js' 		=> array(),
 				)
 			),
 			'default' => new EepStyle(
 				array(
-					'id'	=> 'default',
-					'label'	=> __( 'Default style', 'textdomain' ),
-					'css'	=> array(
-						'base' => EEP_PLUGIN_URL . '/assets/css/base.css',
-						'default' => EEP_PLUGIN_URL . '/assets/css/default.css'
-					)
+					'id'			=> 'default',
+					'label'		=> __( 'Default style', 'textdomain' ),
+					'css'			=> array(
+						'base' 			=> EEP_PLUGIN_URL . '/assets/css/base.css',
+						'default' 	=> EEP_PLUGIN_URL . '/assets/css/default.css',
+						'bootstrap' => 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css'
+						),
+					'js' 			=> array(
+						'jquery-js'		=> 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js',
+						'bootstrap-js'=> 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js'
+						),
 				)
 			),
 			'none' => new EepStyle(
 				array(
-					'id'	=> 'none',
-					'label'	=> __( 'Don\'t load any CSS styles', 'textdomain' ),
-					'css'	=> array( )
+					'id'			=> 'none',
+					'label'		=> __( 'Don\'t load any CSS styles', 'textdomain' ),
+					'css'			=> array( ),
+					'js' 			=> array( ),
 				)
+				
 			),
 		);
 		$this->styles = apply_filters( 'eep_styles', $this->styles );

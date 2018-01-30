@@ -14,12 +14,13 @@ class EepStyle extends EepBase {
 	public $label = '';
 	public $css = array();
 	public $js = array();
-	public $dependencies = array();
 	
 	/**
 	 * Enqueue the stylesheets and javascript files
 	 */
 	public function enqueue_assets() {
+		
+		
 		foreach( $this->css as $key => $file ) {
 			wp_enqueue_style( 'eep-css-' . $key, $file );
 		}
