@@ -232,21 +232,21 @@ global $eep_controller;
 $eep_controller = new ExcellentEngineeringPortfolio();
 
 /*
-template function?
+template function
 */
 function get_publication_href($post_id) {
 	$HREF_TYPE_LINK = 1;
 	$HREF_TYPE_FILE = 2;
 
-	if ('' != get_post_meta(get_the_ID(), "publication_link", true)) {
+	if ('' != get_post_meta($post_id, "publication_link", true)) {
 		$has_href = true;
 		$href_type = $HREF_TYPE_LINK;
-		$href = get_post_meta(get_the_ID(), "publication_link", true);
+		$href = get_post_meta($post_id, "publication_link", true);
 	} else {
 		$args = array(
 			'post_type'      => 'attachment',
 			'post_mime_type' => 'application/pdf',
-			'post_parent'    => get_the_ID(),
+			'post_parent'    => $post_id,
 		);
 		$attachments  		 = get_posts($args);
 		if ($attachments != null && sizeof($attachments) > 0) {
@@ -256,8 +256,11 @@ function get_publication_href($post_id) {
 			$href = wp_get_attachment_url($publication_file_id);
 		} else {
 			$has_href = false;
+			$href_type = '';
+			$href = '';
 		}										
 	}	
+
 	return array ($has_href, $href, $href_type);
 }	
 
