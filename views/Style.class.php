@@ -20,7 +20,7 @@ class EepStyle extends EepBase {
 	 */
 	public function enqueue_assets() {
 		
-		
+		error_log('enqueue assets eepstyle');
 		foreach( $this->css as $key => $file ) {
 			wp_enqueue_style( 'eep-css-' . $key, $file );
 		}

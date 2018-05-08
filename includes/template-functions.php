@@ -1,17 +1,15 @@
 <?php
 /**
- * Template tags and shortcodes for use with Food and Drink Menu
+ * Template tags and shortcodes
  */
-
 
 /**
  * Create a shortcode to display the portfolio
- * @since 1.0
  */
 function eep_portfolio_shortcode( $atts ) {
 
 	// Define shortcode attributes
-	$menu_atts = array(
+	$portfolio_atts = array(
 		'id' => null,
 		'layout' => 'classic',
 		'show_title' => false,
@@ -19,10 +17,10 @@ function eep_portfolio_shortcode( $atts ) {
 	);
 
 	// Create filter so addons can modify the accepted attributes
-	$menu_atts = apply_filters( 'eep_shortcode_portfolio_atts', $menu_atts );
+	$portfolio_atts = apply_filters( 'eep_shortcode_portfolio_atts', $portfolio_atts );
 
 	// Extract the shortcode attributes
-	$args = shortcode_atts( $menu_atts, $atts );
+	$args = shortcode_atts( $portfolio_atts, $atts );
 
 	// Render portfolio
 	eep_load_view_files();
@@ -32,14 +30,15 @@ function eep_portfolio_shortcode( $atts ) {
 }
 add_shortcode( 'eep-portfolio', 'eep_portfolio_shortcode' );
 
+//@calledalways
 /**
  * Load files needed for views
- * @note Can be filtered to add new classes as needed
+ * @note File list can be filtered to add new classes as needed
  */
 function eep_load_view_files() {
 
 	$files = array(
-		EEP_PLUGIN_DIR . '/views/Base.class.php' // This will load all default classes
+		EEP_PLUGIN_DIR . '/views/Base.class.php',
 	);
 
 	$files = apply_filters( 'eep_load_view_files', $files );

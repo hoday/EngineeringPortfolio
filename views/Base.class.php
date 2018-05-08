@@ -9,7 +9,7 @@
 require_once( EEP_PLUGIN_DIR . '/views/Style.class.php' );
 require_once( EEP_PLUGIN_DIR . '/views/View.class.php' );
 require_once( EEP_PLUGIN_DIR . '/views/View.Portfolio.class.php' );
-
+require_once( EEP_PLUGIN_DIR . '/views/View.Project.class.php' );
 
 abstract class EepBase {
 
@@ -27,7 +27,7 @@ abstract class EepBase {
 		$this->parse_args( $args );
 
 	}
-
+	
 	/**
 	 * Parse the arguments passed in the construction and assign them to
 	 * internal variables.

@@ -6,43 +6,49 @@
  * @since 1.1
  */
 abstract class EepView extends EepBase {
-	
+
 	protected $layout = null; // template layout - but where is this actually set?
-	
-	protected $style = null; // template stylesheet - but where is this actually set?
-	
+
+    protected $plugin_options_key = null;
+    protected $plugin_options_array_keys = null;
+
+
+    function __construct() {
+        $this->plugin_options_key = 'eep_options';
+        $this->plugin_options_array_keys = array(
+            'eep_field_num_cols' => 'eep_field_num_cols',
+            'eep_field_style'    => 'eep_field_style',
+        );
+
+    }
+
+	/**
+	 * Render the view
+	 */
 	abstract public function render();
 
 	final protected function enqueue_assets() {
+		error_log('enqueue assets eepview');
 
 		global $eep_controller;
-		
-		$settings = get_option( 'excellent-engineering-portfolio-settings' );
-		if ( $settings['eep-style'] == 'none' ) {
+
+		$plugin_options = get_option($this->plugin_options_key);
+		if ( $plugin_options['eep_field_style'] == 'none' ) {
 			return;
 		}
-		
-		$this->style = 'default'; // set here temporarily. delete later!
 
-		$enqueued = false;
-		foreach ( $eep_controller->styles as $style ) {
-			if ( $this->style == $style->id ) {
-				$style->enqueue_assets();
-				$enqueued = true;
-				error_log("enqueued default style");
-			}
-		}
-		
-		// Fallback to basic style if the selected style does not exist
-		// This can happen if they have a custom style defined in a theme, then
-		// they switch themes. The setting will still be the custom style, but
-		// no entry in $eep_controller->styles will exist for that style.
-		if ( !$enqueued && isset( $eep_controller->styles['base'] ) ) {
-			$eep_controller->styles['base']->enqueue_assets();
-		}	
-	
+		$style_setting = $plugin_options['eep_field_style'];
+
+        error_log("user selected ".$style_setting." style");
+
+        //$eepStyle = $eep_controller->styles[$style_setting];
+        if (array_key_exists($style_setting,  $eep_controller->styles)) {
+            $eepStyle = $eep_controller->styles[$style_setting];
+            $eepStyle->enqueue_assets();
+            error_log("enqueued ".$style_setting." style");
+        }
 	}
-	
+
 	/**
 	 * Load a template file for views
 	 *
@@ -60,7 +66,7 @@ abstract class EepView extends EepBase {
 			get_template_directory() . '/' . EEP_TEMPLATE_DIR . '/',
 			EEP_PLUGIN_DIR . '/' . EEP_TEMPLATE_DIR . '/'
 		);
-		
+
 		$template_dirs = apply_filters( 'eep_template_directories', $template_dirs );
 
 		if ( isset( $this->layout ) && $this->layout != 'classic' ) {
@@ -75,5 +81,5 @@ abstract class EepView extends EepBase {
 
 		return false;
 	}
-	
+
 }

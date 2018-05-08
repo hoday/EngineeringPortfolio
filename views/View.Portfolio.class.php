@@ -11,7 +11,6 @@ class EepViewPortfolio extends EepView {
 
 	/**
 	 * Render the view and enqueue required stylesheets
-	 * @since 1.1
 	 */
 	public function render() {
 		

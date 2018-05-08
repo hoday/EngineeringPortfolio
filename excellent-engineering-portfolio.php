@@ -7,60 +7,60 @@
  * Author URI:   https://github.com/hodayx
  * License:      GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
- 
  * Text Domain:  eep-portfolio
- * Domain Path:  /languages/
  */
- 
+
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 class ExcellentEngineeringPortfolio {
-	
-	private $cpts 			= null;
-	private $settings 	= null;
-	public $styles 		= array(); // accessed by View.class.php
-	
+
+	private $cpts 			= null; //@written
+	public $styles 		= array(); // accessed by View.class.php //@unused
+
 	/**
 	 * Initialize the plugin and register hooks
 	 */
 	public function __construct() {
-		
+
 		// Common strings
-		
-		define( 'EEP_DOMAIN', 			'excellent-engineering-portfolio' );
-		define( 'EEP_PLUGIN_DIR', 	untrailingslashit( plugin_dir_path( __FILE__ ) ) );
-		define( 'EEP_PLUGIN_URL', 	untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
-		define( 'EEP_PLUGIN_FNAME', plugin_basename( __FILE__ ) );
-		define( 'EEP_TEMPLATE_DIR', 'eep-templates' );
-		define( 'EEP_VERSION', 			3 );
-		
-		define( 'EEP_PROJECT_POST_TYPE', 				'project' );
-		define( 'EEP_PORTFOLIO_ITEM_POST_TYPE', 'portfolio_item' );
-		define( 'EEP_PUBLICATION_POST_TYPE', 		'publication' );
-		define( 'EEP_SKILL_POST_TYPE', 					'skill' );
+
+		define( 'EEP_DOMAIN', 			'excellent-engineering-portfolio' ); //@unused
+		define( 'EEP_PLUGIN_DIR', 	untrailingslashit( plugin_dir_path( __FILE__ ) ) ); //@used
+		define( 'EEP_PLUGIN_URL', 	untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) ); //@used
+		define( 'EEP_PLUGIN_FNAME', plugin_basename( __FILE__ ) ); //@unused
+		define( 'EEP_TEMPLATE_DIR', 'eep-templates' ); //@unused
+		define( 'EEP_VERSION', 			3 ); //@unused
+
+		define( 'EEP_PROJECT_POST_TYPE', 				'project' ); //@unused
+		define( 'EEP_PORTFOLIO_ITEM_POST_TYPE', 'portfolio_item' ); //@unused
+		define( 'EEP_PUBLICATION_POST_TYPE', 		'publication' ); //@unused
+		define( 'EEP_SKILL_POST_TYPE', 					'skill' ); //@unused
 
 		// Load template functions
 		require_once( EEP_PLUGIN_DIR . '/includes/template-functions.php' );
 
-		// Call when plugin is initialized on every page load
-		
 		// Loads plugin-specific styles
 		add_action( 'init', array( $this, 'load_config' ) );
-		
+
 		// Loads translations
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 
+        require_once( EEP_PLUGIN_DIR . '/includes/Configs.php' );
+        $configs = new Configs();
+
 		// Load custom post types
-		require_once( EEP_PLUGIN_DIR . '/includes/class-custom-post-types.php' );
-		$this->cpts = new EepCustomPostTypes();
+		require_once( EEP_PLUGIN_DIR . '/includes/CustomPostTypesRegistrationHandler.php' );
+		$this->cpts = new CustomPostTypesRegistrationHandler($configs);
+        $this->cpts->registerCallbacks();
 
-		// Load settings
-		require_once( EEP_PLUGIN_DIR . '/includes/class-settings.php' );
-		$this->settings = new EepSettings();
+        require_once( EEP_PLUGIN_DIR . '/includes/AdminRenderer.php' );
+        (new AdminRenderer($configs))->registerCallbacks();
 
-		// Call when the plugin is activated
-		register_activation_hook( __FILE__, array( $this, 'rewrite_flush' ) );
+        // Call when the plugin is activated
+		register_activation_hook( __FILE__, array( $this, 'activate_plugin' ) );
+
+
 
 		// Load admin assets
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_assets') );
@@ -70,49 +70,44 @@ class ExcellentEngineeringPortfolio {
 /*
 		// Order the menu items by menu order in the admin interface
 		add_filter( 'pre_get_posts', array( $this, 'admin_order_posts' ) );
+*/
 
-		// Append menu and menu item content to a post's $content variable
-		add_filter( 'the_content', array( $this, 'append_to_content' ) );
-
-		*/
-		
 		// Add links to plugin listing
-		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2);
+		add_filter( 'plugin_action_links', array( $this, 'modify_plugin_action_links' ), 10, 2);
 
-	
-	
-	}	
-	
-	/**
-	 * Flush the rewrite rules when this plugin is activated to update with
-	 * custom post types
-	 * @since 1.1
-	 */
-	public function rewrite_flush() {
-		$this->cpts->load_cpts();
-		flush_rewrite_rules();
+
+
+
+
+
+
 	}
 
+    function activate_plugin() {
+        error_log('register_activation_hook called');
+        $this->cpts->rewrite_flush();
+    }
+
+
+
+  //@calledalways
 
 	/**
 	 * Load the plugin's configuration settings and default content
 	 */
 	public function load_config() {
 
-		$settings = get_option( 'eep-excellent-engineering-portfolio-settings' );
-
-		
 		// Define supported styles
 		eep_load_view_files();
-		$this->styles = array(
+		$this->styles = array( //@unused
 			'base' => new EepStyle(
 				array(
-					'id'			=> 'base',
-					'label'		=> __( 'Base style only', 'textdomain' ),
+					'id'			=> 'base', //@unused
+					'label'		=> __( 'Base style only', 'textdomain' ), //@unused
 					'css'			=> array(
-						'base' 			=> EEP_PLUGIN_URL . '/assets/css/base.css'
+						'base' 			=> EEP_PLUGIN_URL . '/assets/css/base.css' //@unused
 						),
-					'js' 		=> array(),
+					'js' 		=> array(), //@unused
 				)
 			),
 			'default' => new EepStyle(
@@ -137,24 +132,26 @@ class ExcellentEngineeringPortfolio {
 					'css'			=> array( ),
 					'js' 			=> array( ),
 				)
-				
+
 			),
 		);
 		$this->styles = apply_filters( 'eep_styles', $this->styles );
 
 	}
-
+//@calledalways
 	/**
 	 * Load the plugin textdomain for localistion
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'textdomain', false, plugin_basename( dirname( __FILE__ ) ) . "/languages/" );
-	}	
+		load_plugin_textdomain( 'textdomain', false, EEP_PLUGIN_DIR . '/languages' );
+	}
 
 
+
+
+//@calledalways
 	/**
 	 * Enqueue the admin-only CSS and Javascript
-	 * @since 1.0
 	 */
 	public function enqueue_admin_assets($hook) {
 
@@ -163,7 +160,7 @@ class ExcellentEngineeringPortfolio {
 		if ( $post_type != EEP_PROJECT_POST_TYPE && $post_type != EEP_PORTFOLIO_ITEM_POST_TYPE && $post_type != EEP_PUBLICATION_POST_TYPE) {
 			return;
 		}
-		
+
     //if ( 'edit.php' != $hook ) {
      //   return;
     //}
@@ -173,10 +170,10 @@ class ExcellentEngineeringPortfolio {
 
 		// For either a plugin or a theme, you can then enqueue the script:
 		wp_enqueue_script( 'eep-admin-script' );
-		
+
 		// register style
 		wp_enqueue_style(  'eep-admin-style', 	EEP_PLUGIN_URL . '/assets/css/admin.css', array(), '1.5.2' );
-		
+
 		wp_localize_script(
 			'eep-admin',
 			'eepSettings',
@@ -189,25 +186,25 @@ class ExcellentEngineeringPortfolio {
 		);
 
 	}
-	
+
+    //@alwayscalled
 	/**
 	 * Register the widgets
-	 * @since 1.1
 	 */
 	public function register_widgets() {
-		
+
 		require_once( EEP_PLUGIN_DIR . '/widgets/WidgetPortfolio.class.php' );
 		register_widget( 'eepWidgetPortfolio' );
 		//require_once( EEP_PLUGIN_DIR . '/widgets/WidgetProjects.class.php' );
 		//register_widget( 'eepWidgetProjects' );
-		
-	}	
-	
+
+	}
+
+    //@calledalways
 	/**
-	 * Add links to the plugin listing on the installed plugins page
-	 * @since 1.0
+	 * Add links below the plugin listing on the installed plugins page
 	 */
-	public function plugin_action_links( $links, $plugin ) {
+	public function modify_plugin_action_links( $links, $plugin ) {
 
 		if ( $plugin == EEP_PLUGIN_FNAME ) {
 
@@ -218,8 +215,16 @@ class ExcellentEngineeringPortfolio {
 
 		return $links;
 
-	}	
-	
+	}
+
+
+
+
+
+
+
+
+
 }
 
 set_error_handler(function($severity, $message, $file, $line) {
@@ -250,7 +255,7 @@ function get_publication_href($post_id) {
 		);
 		$attachments  		 = get_posts($args);
 		if ($attachments != null && sizeof($attachments) > 0) {
-			$publication_file_id = $attachments[0]->ID;	
+			$publication_file_id = $attachments[0]->ID;
 			$has_href = true;
 			$href_type = $HREF_TYPE_FILE;
 			$href = wp_get_attachment_url($publication_file_id);
@@ -258,11 +263,11 @@ function get_publication_href($post_id) {
 			$has_href = false;
 			$href_type = '';
 			$href = '';
-		}										
-	}	
+		}
+	}
 
 	return array ($has_href, $href, $href_type);
-}	
+}
 
 
 
