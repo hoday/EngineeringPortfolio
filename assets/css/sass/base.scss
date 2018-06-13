@@ -1,0 +1,172 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap-grid";
+
+$grey: #777;
+$faded-text: #999;
+$font-size-small: 0.71rem;
+
+.eep-section-subtitle {
+    font-weight: bold;
+}
+
+.eep-item-publication
+ {
+    border-bottom: solid 1px $grey;
+}
+.eep-item-publication:first-child {
+    border-top: solid 1px $grey;
+}
+
+.eep-section-container {
+    /*
+    margin-top: 3em;
+    margin-bottom: 3em;
+    */
+}
+
+.eep-section-row {
+    @include make-row;
+
+}
+
+.eep-columns-4  {
+    @extend .col-md-3;
+}
+.eep-columns-3 {
+    @extend .col-md-4;
+}
+.eep-columns-2 {
+    @extend .col-md-6;
+}
+.eep-columns-1 {
+    @extend .col-md-12;
+}
+
+
+.eep-readmoreitem {
+    display: flex;
+
+    .eep-readmoreitem-thumbnail {
+        flex: 0 0 auto;
+    }
+    .eep-readmoreitem-text {
+        flex: 1 1 auto;
+    }
+
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.eep-readmoreitem-thumbnail img {
+    width: 120px;
+    height: 120px;
+}
+
+.eep-readmoreitem-text {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.eep-project-relatedpublications .eep-section-column,
+.eep-project-readmore .eep-section-column {
+
+    @extend .offset-xl-2;
+    @extend .col-xl-8;
+    @extend .offset-lg-1;
+    @extend .col-lg-10;
+}
+
+.eep-item-publication-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.eep-item-publication-author {
+    font-size: $font-size-small;
+}
+.eep-item-publication-location {
+    color: $faded-text;
+    font-size: $font-size-small;
+}
+.eep-section-subtitle {
+    text-align: center;
+}
+
+
+.eep-item-publication {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.eep-item-publication-container {
+    flex: 1 1;
+}
+.eep-item-publication-icon-container {
+    flex: 0 0 1.5em;
+}
+
+.eep-project-relatedpublications,
+.eep-project-readmore,
+ {
+
+    a {
+        text-decoration: none;
+        box-shadow: none!important;
+    }
+
+    a:link {
+        text-decoration: none;
+    }
+    a:visited {
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: none;
+    }
+    a:active {
+        text-decoration: none;
+
+    }
+}
+
+.eep-section-featured-publications .eep-section-column {
+    @extend .offset-md-1;
+    @extend .col-md-10;
+    @extend .offset-sm-1;
+    @extend .col-sm-10;
+    @extend .col-12;
+
+}
+
+
+.eep-section-title {
+    text-align: center;
+}
+
+.eep-section-seemore {
+    text-align: right;
+}
+
+.eep-publicationlink svg {
+    height: 1.2rem;
+}
+
+
+.eep-item-thumbnail {
+    text-align: center;
+}
+.eep-item-thumbnail img {
+    max-width: 100%;
+    height: auto;
+}
+
+.eep-item.eep-item-project,
+.eep-item.eep-item-portfolioitem {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .eep-item-caption {
+        flex-grow: 1;
+    }
+}

@@ -1,0 +1,52 @@
+// TODO:
+// portfolio shortcode:
+//
+// project archives:
+//
+// individual project pages:
+//
+// portfolio item archive page:
+//
+// admin :
+// choose to be able to chose file from uploads instead of upload new file
+// add js validation of link
+//
+// DONE:
+//
+// portfolio shortcode:
+// remove visible title
+// decrease font-weight and size, decrease line-height
+// vertically unaligned buttons
+// patent not showing up
+// extra margin on empty skills div
+// fixed svg embedded variables
+//
+// project archives:
+// featured img should not appear at top
+// wrong color background,
+// wrong color headings
+//
+// individual project pages:
+// add css styling for the html tags in the content
+// visited link svg icon wrong color
+// fix featured img appearing twice
+// find why html is showing in content
+// visited link svg icon wrong color
+// background not spanning whole width
+//
+// portfolio item archive page:
+// make one!
+// pills wrong color
+//
+// admin :
+// make inputs full-width
+// keep admin menu expanded even when editing a post
+// added php error message
+// find out why "featured" gets unchecked for portfolio items and why meta get deleted
+// (everything gets deleted if you "quickedit" it!)
+// added php validation for urls and checkboxes and added error msg boxes if failed
+// add meta to quickedit if possible
+// remove cpts from menu
+// add feature to change order
+// make file OR link selectable
+// validate/limit settings page inputs

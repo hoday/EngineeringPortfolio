@@ -7,40 +7,26 @@ module.exports = function(grunt) {
 
 		// Load grunt project configuration
 		pkg: grunt.file.readJSON('package.json'),
-        deployTargetLocal: 'C:/xampp/htdocs/wp-hodaystearnsdev/wp-content/plugins/excellent-engineering-portfolio',
-
-		// Configure less CSS compiler
-		less: {
-			build: {
-				options: {
-					ieCompat: true
-				},
-				files: {
-					'assets/css/admin.css': 'assets/css/less/admin.less',
-				}
-			},
-		},
+        deployTargetLocal: 'C:/xampp/htdocs/wp-hodaystearnsdev2/wp-content/plugins/electrifying-engineering-portfolio',
 
         sass: {
 			build: {
-				files: {
-                    /*
+                options: {
+                  sourcemap: 'none'
+                },
+				files: [{
                     expand: true,
-                    cwd: 'assets/css/sass',
-                    src: ['*.scss'],
-                    dest: 'assets/css',
-                    ext: '.css',
-                    */
-                    'assets/css/base.css': 'assets/css/sass/base.scss',
-                    'assets/css/admin.css': 'assets/css/sass/admin.scss',
-
-				},
+                    cwd: 'assets/css/sass/',
+                    src: '**/*.scss',
+                    dest: 'assets/css/',
+                    ext: '.css'
+				}],
 			},
 		},
 
 		// Configure JSHint
 		jshint: {
-			test: {
+			build: {
 				src: 'assets/js/src/**/*.js'
 			}
 		},
@@ -56,21 +42,9 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Watch for changes on some files and auto-compile them
-		watch: {
-			less: {
-				files: 'assets/css/less/*.less',
-				tasks: ['less'],
-			},
-			js: {
-				files: 'assets/js/src/*.js',
-				tasks: ['jshint', 'concat'],
-			}
-		},
-
 		// Create a .pot file
 		makepot: {
-			target: {
+			build: {
 				options: {
 					domainPath: 'languages',
 					potHeaders: {
@@ -82,17 +56,8 @@ module.exports = function(grunt) {
 						return pot;
 					},
 					type: 'wp-plugin',
-				}
-			}
-		},
-
-		// Build a package for distribution
-		compress: {
-			main: {
-				options: {
-					archive: './release/excellent-engineering-portfolio-<%= pkg.version %>.zip'
 				},
-				files: [
+                files: [
 					{
 						src: [
 							'*',
@@ -103,8 +68,6 @@ module.exports = function(grunt) {
                             '!package-lock.json',
                             '!node_modules',
                             '!node_modules/**/*',
-							'!assets/css/less',
-                            '!assets/css/less/**/*',
 							'!assets/js/src',
                             '!assets/js/src/**/*',
                             '!release',
@@ -112,35 +75,87 @@ module.exports = function(grunt) {
 						],
 					}
 				]
+
 			}
 		},
 
-        copy: {
-            releasepackage: {
+		// Build a package for distribution
+		compress: {
+            build: {
+                options: {
+                    archive: 'electrifying-engineering-portfolio-<%= pkg.version %>.zip'
+                },
                 files: [{
                     expand: true,
-                    cwd: './release/',
-                    src: ['excellent-engineering-portfolio-<%= pkg.version %>.zip'],
+                    cwd: 'build/',
+                    src: '**/*'
+                }]
+            }
+		},
+
+        copy: {
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: './',
+                    src: [
+                        '*.php',
+                        'readme.txt',
+                        'views/**/*.php',
+                        'includes/**/*.php',
+                        'eep-templates/**/*.php',
+                        'languages/**/*',
+                        'assets/**/*',
+                        '!assets/js/src',
+                        '!assets/js/src/**/*',
+                        '!assets/css/sass',
+                        '!assets/css/sass/**/*'
+                    ],
+                    dest: 'build/'
+                }],
+            },
+            deployphp: {
+                expand: true,
+                cwd: './',
+                src: [
+                    '*.php',
+                    'views/*.php',
+                    'views/**/*.php',
+                    'includes/*.php',
+                    'includes/**/*.php',
+                    'eep-templates/*.php',
+                    'eep-templates/**/*.php'
+                ],
+                dest: '<%= deployTargetLocal %>/'
+            },
+            deploycss: {
+                files: [{
+                    expand: true,
+                    cwd: './',
+                    src: './assets/css/**/*.css',
                     dest: '<%= deployTargetLocal %>/'
                 }],
             },
-            src: {
+            deployother: {
                 files: [{
-                      expand: true,
-                      cwd: './',
-                      src: [
-                              '*.php',
-                              '**/*.php',
-                              './assets/js/admin.js',
-                              './assets/css/*.css',
-                      ],
-                      dest: '<%= deployTargetLocal %>/'
-                  }],
-              },
+                    expand: true,
+                    cwd: './',
+                    src: [
+                        'readme.txt',
+                        'languages/**/*',
+                        'assets/**/*',
+                        '!assets/js/src',
+                        '!assets/js/src/**/*',
+                        '!assets/css/sass',
+                        '!assets/css/sass/**/*'
+                    ],
+                    dest: '<%= deployTargetLocal %>/'
+                }]
+            }
         },
 
         unzip: {
-          '<%= deployTargetLocal %>': '<%= deployTargetLocal %>/excellent-engineering-portfolio-<%= pkg.version %>.zip'
+          '<%= deployTargetLocal %>': '<%= deployTargetLocal %>/electrifying-engineering-portfolio-<%= pkg.version %>.zip'
         },
 
         clean: {
@@ -149,89 +164,125 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= deployTargetLocal %>/',
-                    src: ['excellent-engineering-portfolio-<%= pkg.version %>.zip'],
+                    src: ['electrifying-engineering-portfolio-<%= pkg.version %>.zip'],
                 }],
             },
         },
 
+        deploy: {
+          php: [1, 2, 3],
+          css: 'hello world',
+        }
+
 	});
 
+    grunt.registerTask('makepot', 'run makepot', function() {
 
-    grunt.registerTask('build', [], function() {
+        grunt.loadNpmTasks('grunt-wp-i18n');
 
+        grunt.task.run(
+            'makepot:build',
+        );
+    });
+
+    grunt.registerTask('build', 'build project into the directory "build"', function() {
+
+        grunt.loadNpmTasks('grunt-contrib-sass');
     	grunt.loadNpmTasks('grunt-contrib-concat');
     	grunt.loadNpmTasks('grunt-contrib-jshint');
-    	//grunt.loadNpmTasks('grunt-contrib-less');
-        grunt.loadNpmTasks('grunt-contrib-sass');
     	grunt.loadNpmTasks('grunt-wp-i18n');
+        grunt.loadNpmTasks('grunt-contrib-copy');
         grunt.loadNpmTasks('grunt-newer');
 
         grunt.task.run(
-            'newer:sass',
-            'newer:jshint',
-            'newer:concat',
-            'newer:makepot',
+            'newer:sass:build',
+            'newer:jshint:build',
+            'newer:makepot:build',
+            'newer:copy:build'
         );
     });
 
-    grunt.registerTask('quickbuild', [], function() {
+    grunt.registerTask('quickbuild', 'build without running jshint or makepot', function() {
 
         grunt.loadNpmTasks('grunt-contrib-concat');
-        //grunt.loadNpmTasks('grunt-contrib-less');
         grunt.loadNpmTasks('grunt-contrib-sass');
         grunt.loadNpmTasks('grunt-newer');
 
         grunt.task.run(
-            'sass',
-            'newer:concat',
+            'newer:sass:build',
         );
     });
 
-    grunt.registerTask('package', [], function() {
+    grunt.registerTask('package', 'create zip file of build directory', function() {
 
         grunt.loadNpmTasks('grunt-contrib-compress');
 
         grunt.task.run(
             'build',
-            'newer:compress',
+            'compress:build',
         );
     });
 
-    grunt.registerTask('deploylocal', [], function() {
+    grunt.registerTask('deploylocal', 'build and deploy to test server', function() {
 
         grunt.loadNpmTasks('grunt-contrib-copy');
         grunt.loadNpmTasks('grunt-newer');
 
         grunt.task.run(
             'quickbuild',
-            'newer:copy:src',
+            'newer:copy:deployphp',
+            'newer:copy:deploycss',
+            'newer:copy:deployother',
+
         );
     });
 
-    grunt.registerTask('copyphp', [], function() {
+    grunt.registerTask('copyphp', 'copy php only to test server', function() {
 
         grunt.loadNpmTasks('grunt-contrib-copy');
         grunt.loadNpmTasks('grunt-newer');
 
         grunt.task.run(
-            'newer:copy:src',
+            'copy:deployphp',
         );
     });
 
-/*
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-wp-i18n');
-    grunt.loadNpmTasks('grunt-zip');
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    */
+    grunt.registerTask('sasscopycss', 'run sass and copy sass only to test server', function() {
 
-	//grunt.registerTask('build', ['less', 'jshint', 'concat', 'makepot']);
-	//grunt.registerTask('package', ['build', 'compress']);
-    //grunt.registerTask('deploy', ['compress', 'copy:releasepackage', 'unzip', 'clean:releasepackage']);
-    //grunt.registerTask('deploylocal', ['copy:src']);
+        grunt.loadNpmTasks('grunt-contrib-copy');
+        grunt.loadNpmTasks('grunt-newer');
+        grunt.loadNpmTasks('grunt-contrib-sass');
+
+
+        grunt.task.run(
+            'newer:sass:build',
+            'newer:copy:deploycss',
+        );
+    });
+
+    grunt.task.registerMultiTask('deploy', 'Deploy to the local server. deploy:php or deploy:css or just deploy', function() {
+        if (this.target === 'css') {
+
+            grunt.loadNpmTasks('grunt-contrib-sass');
+            grunt.loadNpmTasks('grunt-contrib-copy');
+            grunt.loadNpmTasks('grunt-newer');
+
+            grunt.task.run(
+                'newer:sass:build',
+                'newer:copy:deploycss',
+            );
+
+        } else if (this.target === 'php' ) {
+
+            grunt.loadNpmTasks('grunt-contrib-copy');
+            grunt.loadNpmTasks('grunt-newer');
+
+            grunt.task.run(
+                'newer:copy:deployphp',
+            );
+        }
+    });
+
+
 
 };
